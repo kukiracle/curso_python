@@ -1,0 +1,268 @@
+@startuml
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "photo" as e_photo {
+*photo_id : number <<generated>>
+--
+*photo_name:varchar(60)
+*photo_url:varchar(150)
+*photo_format:varchar(10)
+*photo_size:varchar(60)
+*photo_blurhash:varchar(120)
+--
+*colour_id: number <<FK>>
+*article_id:number <<FK>>
+*location_id:number <<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+
+}
+entity "colour" as e_colour{
+*colour_id : number <<generated>>
+--
+*colour_primary_hex:varchar(50)
+*colour_secundary_hex:varchar(50)
+*colour_primary_rgb:varchar(10)
+*colour_secundary_rgb:varchar(10)
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+entity "location" as e_location {
+ *location_id : number <<generated>>
+ --
+ *location_description:varchar(150)
+ *location_latitude:float
+ *location_length:float
+ --
+ *business_id:number <<FK>>
+ *direction_id:number <<FK>>
+ --
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+entity "log" as e_log{
+log_id:number <<generated>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+entity "direction" as e_direction{
+*direction_id:number<<generated>>
+--
+*direction_zone:varchar(50)
+*direction_street:varchar(50)
+*direction_neighborhood:varchar(50)
+--
+*location_id : number <<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+entity "business_association" as e_business_association {
+*business_association_id:number<<generated>>
+--
+*business_association_name:varchar(50)
+*business_association_leader:varchar(100)
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+entity "business" as e_business{
+*business_id:number <<generated>>
+--
+*business_name:varchar(100)
+*business_description:varchar(150)
+*business_active:boolean
+--
+*user_id:number <<FK>>
+*business_category_id:number <<FK>>
+*business_association_id:number <<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+entity "person" as e_person{
+*person_id:number <<generated>>
+--
+*person_firstname: varchar(100)
+*person_lastname: varchar(100)
+*person_phone:varchar(10)
+*person_email:varchar(100)
+--
+*user_id:number <<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+
+}
+entity "user" as e_user{
+*user_id: number <<generated>>
+--
+*user_nickname:varchar(100)
+*user_password:varchar(100)
+*user_active:boolean
+--
+*person_id:number <<FK>>
+
+
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+
+}
+
+
+
+entity "auth_user_groups" as e_auth_user_groups{
+*auth_user_groups_id:number <<generated>>
+--
+*user_id:number <<FK>>
+*auth_group_id:number <<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+entity "auth_group" as e_auth_group{
+*auth_group_id:number <<generated>>
+--
+auth_group_name:varchar (60)
+auth_group_description:varchar(255)
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+
+}
+
+
+
+
+
+
+
+entity "consultation" as e_consultation{
+*consultation_id:number <<generated>>
+--
+*user_id:number<<FK>>
+*article_id:number<<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+
+
+
+entity "business_category" as e_business_category {
+*business_category_id : number <<generated>>
+--
+*business_category_name : varchar(100)
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+entity "article_category" as e_article_category {
+*article_category_id : number <<generated>>
+--
+*article_category_name : varchar(100)
+*article_category_image:varchar(100)
+*article_category_description:varchar(150)
+--
+*business_category_id : number <<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+entity "article" as e_article {
+*article_id : number <<generated>>
+--
+*article_name : varchar(100)
+*article_cost_unit : float
+*article_quotation : number[X]
+*article_description : varchar(150)
+*article_details : varchar(150)
+*article_active:boolean
+--
+*business_id: number <<FK>>
+*article_status_id : number <<FK>>
+*article_category_id : number <<FK>>
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+
+}
+entity "article_status" as e_article_status{
+*article_status_id:number <<generated>>
+--
+*article_status_name:varchar (60)
+--
+*_creation_user:text
+*_modification_user:text
+*_creation_date: date
+*_modification_date: date
+}
+
+
+e_business}|..||e_user
+e_photo}|..||e_location
+e_location}|..||e_business
+e_article_category }|..||e_business_category
+e_article }|..|| e_article_category
+e_photo }|..|| e_article
+e_business}|..||e_business_association
+e_article}|..||e_business
+e_business}|..||e_business_category
+e_consultation}|..||e_article
+e_consultation}|..||e_user
+e_auth_user_groups}|--||e_user
+e_location||..||e_direction
+e_user||--||e_person
+e_photo}|--||e_colour
+e_auth_user_groups}|--||e_auth_group
+e_article}|--||e_article_status
+
+
+
+
+@enduml

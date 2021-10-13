@@ -1,0 +1,12 @@
+1 framework para crear aplicacionesweb de alto nivel
+para poder desarrollar mas facil las aplicaciones
+
+2 ORM Object-relational mapper: incluye un mapeo de objetos 
+hacia la base de datos
+
+3 urls y vistas
+4 templates :plantillas html o pages
+
+5 forms: procesaimento de formularios
+6 idiomas full
+7 seguridad

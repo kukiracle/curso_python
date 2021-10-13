@@ -1,0 +1,11 @@
+en la ruta
+C:\Program Files\PostgreSQL\13\data\postgresql.conf
+
+
+# Add settings for extensions here
+lc_messages='en-US'
+lc_monetary='en-US'
+lc_numeric='en-US'
+lc_time='en-US'
+
+luego reiniciar equipo
